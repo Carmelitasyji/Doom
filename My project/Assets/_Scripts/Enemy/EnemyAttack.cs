@@ -18,6 +18,7 @@ public class EnemyAttack : MonoBehaviour
         {
             //enemyAggro.animator.SetBool("isAttacking", true);
             isAttacking = true;
+            Debug.Log("El jugador ha entrado al área de daño del enemigo.");
         }
     }
 
@@ -27,6 +28,7 @@ public class EnemyAttack : MonoBehaviour
         {
             //enemyAggro.animator.SetBool("isAttacking", false);
             isAttacking = false;
+            Debug.Log("El jugador ha salido del área de daño del enemigo.");
         }
     }
 

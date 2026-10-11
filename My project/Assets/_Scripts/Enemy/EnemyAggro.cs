@@ -36,7 +36,7 @@ public class EnemyAggro : MonoBehaviour
     {
         var dis = Vector3.Distance(transform.position,playerTransform.position);
 
-        if ( dis < distanceToAggro)
+        if ( dis > distanceToAggro)
         {
             isAggro = false;
         }
