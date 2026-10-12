@@ -4,9 +4,8 @@ using UnityEngine.InputSystem;
 public class InputController : MonoBehaviour
 {
     public static InputController Instance;
-
-    InputAction movementInput;
     InputAction shootInput;
+    InputAction movementInput;
 
     [HideInInspector] public Vector2 movementVector;
 
