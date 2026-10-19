@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73b2507a44efdf04491917d000ee2758, type: 3}
   m_Name: Chogun
   m_EditorClassIdentifier: 
-  range: 5
-  verticalRange: 5
+  range: 10
+  verticalRange: 10
   horizontalRange: 10
   fireRate: 2
   damage: 5

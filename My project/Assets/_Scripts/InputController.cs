@@ -7,8 +7,10 @@ public class InputController : MonoBehaviour
 
     InputAction movementInput;
     InputAction shootInput;
+    InputAction jetpackInput;
 
     [HideInInspector] public Vector2 movementVector;
+    [HideInInspector] public bool isJetpackActive;
 
     private void Awake()
     {
@@ -23,6 +25,7 @@ public class InputController : MonoBehaviour
 
         movementInput = InputSystem.actions.FindAction("Move");
         shootInput = InputSystem.actions.FindAction("Attack");
+        jetpackInput = InputSystem.actions.FindAction("Jump");
     }
 
     // Update is called once per frame
@@ -30,6 +33,7 @@ public class InputController : MonoBehaviour
     {
         GetMoveInput();
         Shoot();
+        Jetpack();
     }
 
     private void Shoot()
@@ -43,5 +47,13 @@ public class InputController : MonoBehaviour
     public void GetMoveInput()
     {
         movementVector = movementInput.ReadValue<Vector2>();
+    }
+    private void Jetpack()
+    {
+        // Lee si el botón se mantiene presionado durante este frame
+        if (jetpackInput != null)
+        {
+            isJetpackActive = jetpackInput.IsPressed();
+        }
     }
 }
