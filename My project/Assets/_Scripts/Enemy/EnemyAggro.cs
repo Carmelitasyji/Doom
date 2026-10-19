@@ -6,11 +6,8 @@ public class EnemyAggro : MonoBehaviour
 {
 
     public bool isAggro;
-
     public float distanceToAggro;
-
     [HideInInspector] public Transform playerTransform;
-
     private EnemyAttack enemyAttack;
     // Start is called before the first frame update
     void Start()
@@ -20,10 +17,8 @@ public class EnemyAggro : MonoBehaviour
             playerTransform = FindAnyObjectByType<PlayerMovement>().transform;
 
             enemyAttack = GetComponentInChildren<EnemyAttack>();
-
             isAggro = false;
         }
-
     }
 
     // Update is called once per frame
@@ -36,7 +31,7 @@ public class EnemyAggro : MonoBehaviour
     {
         var dis = Vector3.Distance(transform.position,playerTransform.position);
 
-        if ( dis > distanceToAggro)
+        if ( dis < distanceToAggro)
         {
             isAggro = false;
         }
@@ -45,7 +40,6 @@ public class EnemyAggro : MonoBehaviour
             isAggro = true;
         }
     }
-
     public void EnemyDamage()
     {
         if (enemyAttack.isAttacking)
