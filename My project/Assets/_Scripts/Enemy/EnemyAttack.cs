@@ -1,35 +1,46 @@
-
+using System.Collections;
 using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    private EnemyAggro enemyAggro;
-    [HideInInspector] public bool isAttacking;
+    [Header("Configuraci√≥n de Da√±o")]
+    public int danoPorGolpe = 10;
+    public float velocidadDeAtaque = 1.5f; // Pega cada 1.5 segundos
 
-    private void Start()
-    {
-        enemyAggro = GetComponentInParent<EnemyAggro>();
-        isAttacking = false;
-    }
+    private bool isAttacking;
+    private PlayerStats playerStats;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !other.isTrigger)
         {
-            //enemyAggro.animator.SetBool("isAttacking", true);
             isAttacking = true;
-            Debug.Log("El jugador ha entrado al ·rea de daÒo del enemigo.");
+            
+            // Buscamos el PlayerStats en la ra√≠z por si el collider choca con un hijo
+            playerStats = other.GetComponentInParent<PlayerStats>(); 
+            
+            StartCoroutine(RutinaDeAtaque());
+            Debug.Log("¬°El enemigo te est√° atacando cuerpo a cuerpo!");
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !other.isTrigger)
         {
-            //enemyAggro.animator.SetBool("isAttacking", false);
             isAttacking = false;
-            Debug.Log("El jugador ha salido del ·rea de daÒo del enemigo.");
+            playerStats = null;
+            Debug.Log("Saliste de la zona de peligro.");
         }
     }
 
+    IEnumerator RutinaDeAtaque()
+    {
+        // Mientras sigas dentro de su rango de ataque y est√©s vivo
+        while (isAttacking && playerStats != null)
+        {
+            playerStats.RecibirDano(danoPorGolpe);
+            yield return new WaitForSeconds(velocidadDeAtaque);
+        }
+    }
 }

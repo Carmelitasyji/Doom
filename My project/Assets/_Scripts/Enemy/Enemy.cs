@@ -16,16 +16,22 @@ public class Enemy : MonoBehaviour
     public void Damage(int damage, Quaternion rot)
     {
         health -= damage;
-        GameObject bloodInstance = Instantiate(blood, transform.position, rot);
-        Destroy(bloodInstance, 2);
+        if (blood != null)
+        {
+            GameObject bloodInstance = Instantiate(blood, transform.position, rot);
+            Destroy(bloodInstance, 2);
+        }
     }
 
     public void EnemyDead()
     {
-        if(health<= 0)
+        if(health <= 0)
         {
-            EnemyManager.Instance.RemoveEnemy(this);
-            Destroy(gameObject);
+            if (EnemyManager.Instance != null && EnemyManager.Instance.enemiesInRange.Contains(this))
+            {
+                EnemyManager.Instance.RemoveEnemy(this);
+            }
+            Destroy(transform.root.gameObject);
         }
     }
 }

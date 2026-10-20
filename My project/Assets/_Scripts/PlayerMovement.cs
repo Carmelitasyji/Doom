@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class PlayerMovement : MonoBehaviour
     public float recargaPorSegundo = 10f;
     public float combustibleActual;
 
+    [Header("HUD del Jetpack")]
+    public TextMeshProUGUI textoJetpack;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Movement();
         Rotation();
+        ActualizarHUDJetpack();
     }
 
     public void Movement()
@@ -69,6 +74,18 @@ public class PlayerMovement : MonoBehaviour
         currentRotationPos += rotationInput;
 
         transform.localRotation = Quaternion.AngleAxis(currentRotationPos, transform.up);
+    }
+
+    private void ActualizarHUDJetpack()
+    {
+        if (textoJetpack != null)
+        {
+            // Convertimos la gasolina a un porcentaje entero (0 a 100)
+            int porcentaje = Mathf.RoundToInt((combustibleActual / combustibleMaximo) * 100f);
+            
+            // Le pegamos el símbolo de % al final para que se vea profesional
+            textoJetpack.text = porcentaje.ToString() + "%";
+        }
     }
 
 }

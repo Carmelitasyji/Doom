@@ -31,20 +31,13 @@ public class EnemyAggro : MonoBehaviour
     {
         var dis = Vector3.Distance(transform.position,playerTransform.position);
 
-        if ( dis < distanceToAggro)
+        if ( dis > distanceToAggro)
         {
             isAggro = false;
         }
         else
         {
             isAggro = true;
-        }
-    }
-    public void EnemyDamage()
-    {
-        if (enemyAttack.isAttacking)
-        {
-            playerTransform.GetComponent<PlayerStats>().PlayerDamage();
         }
     }
 }
