@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using TMPro;
 
@@ -8,11 +7,15 @@ public class PlayerStats : MonoBehaviour
     public int maxHealth = 100;
     public int health;
     public int maxArmor = 100;
-    public int armor = 0; // Inicia sin armadura
+    public int armor = 0;
 
     [Header("Conexión al HUD")]
     public TextMeshProUGUI textoVida;
     public TextMeshProUGUI textoArmadura;
+
+    public System.Action OnPlayerDied;
+
+    private bool yaMuerto = false;
 
     void Start()
     {
@@ -26,7 +29,7 @@ public class PlayerStats : MonoBehaviour
         {
             int danoSobrante = cantidad - armor;
             armor -= cantidad;
-            
+
             if (armor < 0) armor = 0;
 
             if (danoSobrante > 0)
@@ -39,18 +42,19 @@ public class PlayerStats : MonoBehaviour
             health -= cantidad;
         }
 
-        // EL SEGURO: Evita que la vida baje de 0
-        if (health < 0) 
+        if (health < 0)
         {
             health = 0;
         }
 
         ActualizarHUD();
 
-        if (health == 0)
+        // 👇 ESTE BLOQUE VA DENTRO DE RecibirDano
+        if (health == 0 && !yaMuerto)
         {
+            yaMuerto = true;
             Debug.Log("¡Te mataron:c");
-            // Aquí puedes llamar a una pantalla de Game Over después
+            OnPlayerDied?.Invoke();
         }
     }
 
@@ -68,9 +72,16 @@ public class PlayerStats : MonoBehaviour
         ActualizarHUD();
     }
 
+    public void ResetearStats()
+    {
+        health = maxHealth;
+        armor = 0;
+        yaMuerto = false;
+        ActualizarHUD();
+    }
+
     private void ActualizarHUD()
     {
-        // Esto cambia los números de la pantalla en tiempo real
         if (textoVida != null) textoVida.text = health.ToString();
         if (textoArmadura != null) textoArmadura.text = armor.ToString();
     }
